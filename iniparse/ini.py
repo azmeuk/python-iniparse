@@ -48,6 +48,7 @@ import six
 
 from . import config
 
+
 class LineType(object):
     line = None
 
@@ -75,10 +76,10 @@ class LineType(object):
 
 
 class SectionLine(LineType):
-    regex =  re.compile(r'^\['
-                        r'(?P<name>[^]]+)'
-                        r'\]\s*'
-                        r'((?P<csep>;|#)(?P<comment>.*))?$')
+    regex = re.compile(r'^\['
+                       r'(?P<name>[^]]+)'
+                       r'\]\s*'
+                       r'((?P<csep>;|#)(?P<comment>.*))?$')
 
     def __init__(self, name, comment=None, comment_separator=None,
                              comment_offset=-1, line=None):
@@ -171,6 +172,7 @@ def change_comment_syntax(comment_chars='%;#', allow_rem=False):
         regex += '|[rR][eE][mM]'
     regex += r')(?P<comment>.*)$'
     CommentLine.regex = re.compile(regex)
+
 
 class CommentLine(LineType):
     regex = re.compile(r'^(?P<csep>[;#]|[rR][eE][mM])'
@@ -280,8 +282,6 @@ class LineContainer(object):
     value = property(get_value, set_value)
 
     def __str__(self):
-        for c in self.contents:
-            pass#print(c.__str__())
         s = [x.__str__() for x in self.contents]
         return '\n'.join(s)
 
@@ -326,8 +326,8 @@ class INISection(config.ConfigNamespace):
     _optionxformvalue = None
     _optionxformsource = None
     _compat_skip_empty_lines = set()
-    def __init__(self, lineobj, defaults = None,
-                       optionxformvalue=None, optionxformsource=None):
+
+    def __init__(self, lineobj, defaults=None, optionxformvalue=None, optionxformsource=None):
         self._lines = [lineobj]
         self._defaults = defaults
         self._optionxformvalue = optionxformvalue
@@ -457,6 +457,7 @@ class INIConfig(config.ConfigNamespace):
     _sectionxformsource = None
     _parse_exc = None
     _bom = False
+
     def __init__(self, fp=None, defaults=None, parse_exc=True,
                  optionxformvalue=lower, optionxformsource=None,
                  sectionxformvalue=None, sectionxformsource=None):
@@ -643,5 +644,3 @@ class INIConfig(config.ConfigNamespace):
 
         if exc:
             raise exc
-
-
